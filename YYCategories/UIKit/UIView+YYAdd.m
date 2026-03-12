@@ -12,6 +12,8 @@
 #import "UIView+YYAdd.h"
 #import <QuartzCore/QuartzCore.h>
 #import "YYCategoriesMacro.h"
+#import "YYCGUtilities.h"
+
 
 YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
 
@@ -60,7 +62,7 @@ YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
     self.layer.shadowRadius = radius;
     self.layer.shadowOpacity = 1;
     self.layer.shouldRasterize = YES;
-    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.rasterizationScale = YYCurrentScreenScale();
 }
 
 - (void)removeAllSubviews {

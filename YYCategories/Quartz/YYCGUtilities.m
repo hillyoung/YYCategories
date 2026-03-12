@@ -13,6 +13,32 @@
 #import <Accelerate/Accelerate.h>
 #import "UIView+YYAdd.h"
 
+UIScreen * YYCurrentScreen(void) {
+    // iOS 13+ 多 Scene
+    if (@available(iOS 26.0, *)) {
+        for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+            if (scene.activationState == UISceneActivationStateForegroundActive &&
+                [scene isKindOfClass:[UIWindowScene class]]) {
+                UIWindowScene *ws = (UIWindowScene *)scene;
+                UIWindow *keyWin = ws.keyWindow ?: ws.windows.firstObject;
+                if (keyWin) {
+                    return keyWin.screen;
+                }
+            }
+        }
+    }
+    // 兜底：老逻辑
+    return [UIScreen mainScreen];
+}
+
+CGFloat YYCurrentScreenScale(void) {
+    if (@available(iOS 26.0, *)) {
+        return [UITraitCollection currentTraitCollection].displayScale;
+    } else {
+        return [UIScreen mainScreen].scale;
+    }
+}
+
 CGContextRef YYCGContextCreateARGBBitmapContext(CGSize size, BOOL opaque, CGFloat scale) {
     size_t width = ceil(size.width * scale);
     size_t height = ceil(size.height * scale);
@@ -51,7 +77,7 @@ CGFloat YYScreenScale(void) {
     static CGFloat scale;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        scale = [UIScreen mainScreen].scale;
+        scale = YYCurrentScreenScale();
     });
     return scale;
 }
@@ -60,7 +86,7 @@ CGSize YYScreenSize(void) {
     static CGSize size;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        size = [UIScreen mainScreen].bounds.size;
+        size = YYCurrentScreen().bounds.size;
         if (size.height < size.width) {
             CGFloat tmp = size.height;
             size.height = size.width;

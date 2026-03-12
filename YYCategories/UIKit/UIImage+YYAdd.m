@@ -180,7 +180,7 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
     if (emoji.length == 0) return nil;
     if (size < 1) return nil;
     
-    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat scale = YYCurrentScreenScale();
     CTFontRef font = CTFontCreateWithName(CFSTR("AppleColorEmoji"), size * scale, NULL);
     if (!font) return nil;
     
@@ -223,7 +223,7 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
     
     CGRect pdfRect = CGPDFPageGetBoxRect(page, kCGPDFCropBox);
     CGSize pdfSize = resize ? size : pdfRect.size;
-    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat scale = YYCurrentScreenScale();
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef ctx = CGBitmapContextCreate(NULL, pdfSize.width * scale, pdfSize.height * scale, 8, 0, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedFirst);
     if (!ctx) {

@@ -307,6 +307,9 @@ static inline UIEdgeInsets UIEdgeInsetPixelCeil(UIEdgeInsets insets) {
     return insets;
 }
 
+extern UIScreen * YYCurrentScreen(void) ;
+extern CGFloat YYCurrentScreenScale(void) ;
+
 // main screen's scale
 #ifndef kScreenScale
 #define kScreenScale YYScreenScale()

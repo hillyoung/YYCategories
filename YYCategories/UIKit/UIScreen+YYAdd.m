@@ -12,6 +12,7 @@
 #import "UIScreen+YYAdd.h"
 #import "YYCategoriesMacro.h"
 #import "UIDevice+YYAdd.h"
+#import "YYCGUtilities.h"
 
 YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
 
@@ -23,10 +24,10 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if ([NSThread isMainThread]) {
-            screenScale = [[UIScreen mainScreen] scale];
+            screenScale = YYCurrentScreenScale();
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                screenScale = [[UIScreen mainScreen] scale];
+                screenScale = YYCurrentScreenScale();
             });
         }
     });
@@ -53,7 +54,7 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
 - (CGSize)sizeInPixel {
     CGSize size = CGSizeZero;
     
-    if ([[UIScreen mainScreen] isEqual:self]) {
+    if ([YYCurrentScreen() isEqual:self]) {
         NSString *model = [UIDevice currentDevice].machineModel;
         
         if ([model hasPrefix:@"iPhone"]) {
@@ -86,7 +87,7 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
 }
 
 - (CGFloat)pixelsPerInch {
-    if (![[UIScreen mainScreen] isEqual:self]) {
+    if (![YYCurrentScreen() isEqual:self]) {
         return 326;
     }
     
