@@ -50,7 +50,7 @@ YYSYNTH_DUMMY_CLASS(CALayer_YYAdd)
     self.shadowRadius = radius;
     self.shadowOpacity = 1;
     self.shouldRasterize = YES;
-    self.rasterizationScale = [UIScreen mainScreen].scale;
+    self.rasterizationScale = YYCurrentScreenScale();
 }
 
 - (void)removeAllSublayers {

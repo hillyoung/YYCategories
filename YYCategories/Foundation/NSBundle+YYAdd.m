@@ -12,6 +12,7 @@
 #import "NSBundle+YYAdd.h"
 #import "NSString+YYAdd.h"
 #import "YYCategoriesMacro.h"
+#import "YYCGUtilities.h"
 
 YYSYNTH_DUMMY_CLASS(NSBundle_YYAdd)
 
@@ -21,7 +22,7 @@ YYSYNTH_DUMMY_CLASS(NSBundle_YYAdd)
     static NSArray *scales;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        CGFloat screenScale = [UIScreen mainScreen].scale;
+        CGFloat screenScale = YYCurrentScreenScale();
         if (screenScale <= 1) {
             scales = @[@1,@2,@3];
         } else if (screenScale <= 2) {
